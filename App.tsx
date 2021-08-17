@@ -1,21 +1,32 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import User from './components/View/User';
+import Seguidor from './components/View/Seguidor';
+import Seguindo from './components/View/Seguindo';
+import Index from './components/View/Index';
+import Repos from './components/View/Repos';
+import Seguindos from './components/View/Seguindos';
+import Seguidores from './components/View/Seguidores';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Seguidores" component={Seguidores} /> 
+          <Stack.Screen name="Seguindos" component={Seguindos} />  
+          <Stack.Screen name="Repos" component={Repos} /> 
+          <Stack.Screen name="Index" component={Index} />  
+          <Stack.Screen name="Seguindo" component={Seguindo} />  
+          <Stack.Screen name="Seguidor" component={Seguidor} />  
+          <Stack.Screen name="User" component={User} />  
+        </Stack.Navigator>
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
