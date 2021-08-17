@@ -53,8 +53,8 @@ function Seguindo(props:any)
                     </View>
                     <View style={stylesUserSeguindoSeguidor.marcaRegion}><View style={stylesUserSeguindoSeguidor.marca}/><Text style={stylesUserSeguindoSeguidor.textHigh}>{userData.name}</Text></View>
                     <View style={stylesUserSeguindoSeguidor.textRegionLow}>
-                        <Text style={stylesUserSeguindoSeguidor.textLow}>{userData.email? userData.email:""}</Text>
-                        <Text style={stylesUserSeguindoSeguidor.textLow}>{userData.location? userData.location:""}</Text>
+                        <Text style={stylesUserSeguindoSeguidor.textLow}>{userData.email? userData.email:"Não informado!"}</Text>
+                        <Text style={stylesUserSeguindoSeguidor.textLow}>{userData.location? userData.location:"Não informado!"}</Text>
                     </View>
                     <View style={stylesUserSeguindoSeguidor.regionDates}>
                         <TouchableOpacity onPress={_=>props.navigation.navigate('Seguidores')} style={stylesUserSeguindoSeguidor.dateRegion}><Text style={stylesUserSeguindoSeguidor.textHigh}>{userData.followers}</Text><Text style={stylesUserSeguindoSeguidor.textLow}>Seguidores</Text></TouchableOpacity>
@@ -63,7 +63,7 @@ function Seguindo(props:any)
                     </View>
                     <View style={stylesUserSeguindoSeguidor.marcaRegion2}><View style={stylesUserSeguindoSeguidor.marca}/><Text style={stylesUserSeguindoSeguidor.textHigh}>Bio</Text></View>
                     <View style={stylesUserSeguindoSeguidor.textRegionLow2}>
-                        <Text style={stylesUserSeguindoSeguidor.textLow}>{userData.bio ? userData.bio:""}</Text>           
+                        <Text style={stylesUserSeguindoSeguidor.textLow}>{userData.bio ? userData.bio:"Não informado!"}</Text>           
                     </View>
             
             </View>
