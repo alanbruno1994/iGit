@@ -2,7 +2,7 @@
     +Aqui é o componente que representa a tela que listas as pessoas que se está seguindo
 */
 import React,{useState,useEffect} from 'react';
-import { View, StyleSheet, Text, StatusBar, ScrollView, LogBox, TouchableOpacity } from 'react-native';
+import { View, Text, StatusBar, ScrollView, LogBox, TouchableOpacity } from 'react-native';
 import { AntDesign } from '@expo/vector-icons'; 
 import { useFonts } from 'expo-font';
 import { connect } from "react-redux";
@@ -78,13 +78,14 @@ function Seguindos(props:SeguindosInterface)
                                         </View> 
                                     </View>
                                     {carregado ? povoamento() : <Text style={styles.textMensagem}>Dados carregando...</Text>}
+                                    <View style={{height:80,width:"100%"}}/>
                             </View>                        
                                                                                    
                         </View>
                     </ScrollView>
                </View>
                <View style={stylesUserSeguindoSeguidor.areaMenu}>
-                    <MenuBotton codeSelect={4}/>
+                    <MenuBotton navigation={props.navigation} codeSelect={4}/>
                 </View>
           </>;
 }
@@ -102,7 +103,7 @@ function dispatchStateToProps(dispatch:any)
     return { }      
 }
 
-export default Seguindos;
 
-//export default connect(mapStateToProps,dispatchStateToProps)(Seguindos);
+
+export default connect(mapStateToProps,dispatchStateToProps)(Seguindos);
 

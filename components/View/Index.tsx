@@ -1,9 +1,14 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import { hightWindow } from "../../Constants";
 import { Text, StatusBar,  StyleSheet,View, TextInput,TouchableOpacity, LogBox } from 'react-native';
 import { AntDesign } from '@expo/vector-icons'; 
+import { consultCreator } from "../../redux/actionCreators/consultCreator";
+import { userUpdate } from "../../redux/actionCreators/userUpdate";
+import { connect } from "react-redux";
+import { statesUser } from "../../interfaces/statesUser";
+import { getData } from "../../data";
 
-export default function Index(props:any)
+function Index(props:any)
 {
     let [user,setUser]=useState("");
     let [campo,setCampo]=useState(false);
@@ -11,12 +16,27 @@ export default function Index(props:any)
     function nextPage()
     {
         if(user.length>0){
-          
+            props.consultUser(user);
         }else
         {
             setCampo(true);
         }      
     }
+
+    useEffect(function(){                
+        if(props.login){
+            props.navigation.navigate('User'); //Aqui chama tela representada por User.tsx           
+        }
+    }
+    ,[props]);
+
+    useEffect(() => {
+        LogBox.ignoreAllLogs(true); 
+        let recover:any=getData();
+        if(recover!=null){
+            props.previousUse(recover);
+        }
+    }, [])
 
     return <>
          <View style={styles.container}>
@@ -24,7 +44,7 @@ export default function Index(props:any)
                 <View style={styles.campoInput}>
                         <AntDesign name="github" size={120} color="#FDCF09" />      
                         <View style={{width:"100%"}}>             
-                            <TextInput style={styles.textInputStyle} placeholder="Usuário" value={user} onChangeText={text=>{setCampo(false); props.alterUser(text);}}/>                                    
+                            <TextInput style={styles.textInputStyle} placeholder="Usuário" value={user} onChangeText={text=>{setCampo(false); setUser(text);}}/>                                    
                             <Text style={campo ? styles.textErro: {display:"none"}}>Campo Obrigatório!</Text>
                         </View> 
                         <TouchableOpacity style={styles.buttonStyle} onPress={nextPage}>
@@ -79,3 +99,27 @@ const styles = StyleSheet.create({
         display:"flex"
     }
   });
+
+function mapStateToProps(state:any) {
+    return {          
+            login:state.users.login,           
+            }
+}
+
+function dispatchStateToProps(dispatch:any)
+{
+    return {      
+        consultUser(login:string)
+        {
+            const action=consultCreator(login);
+            dispatch(action);
+        },
+        previousUse(dado:statesUser)
+        {
+            const action=userUpdate(dado);
+            dispatch(action);
+        }
+   }
+}
+
+  export default connect(mapStateToProps,dispatchStateToProps)(Index);

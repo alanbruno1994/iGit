@@ -75,12 +75,13 @@ function Repos(props:ReposInterface)
                     </View> 
                 </View>
                 {carregado ? povoamento() : <Text style={styles.textMensagem}>Dados carregando...</Text>}
+                <View style={{height:80,width:"100%"}}/>
             </View>          
         </View>
      </ScrollView>        
     </View>
     <View style={stylesUserSeguindoSeguidor.areaMenu}>
-                <MenuBotton codeSelect={2}/>
+                <MenuBotton navigation={props.navigation} codeSelect={2}/>
     </View>
     </>;    
 }
@@ -98,10 +99,10 @@ function dispatchStateToProps(dispatch:any)
     return {}
 }
 
-export default Repos;
 
 
-//export default connect(mapStateToProps,dispatchStateToProps)(Repos);
+
+export default connect(mapStateToProps,dispatchStateToProps)(Repos);
 
 const styles = StyleSheet.create({
     container: { 

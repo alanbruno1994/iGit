@@ -1,14 +1,25 @@
-import React from "react";
-import { ScrollView, View,StyleSheet, Text,StatusBar,TouchableOpacity,Image } from "react-native";
+import React, { useEffect } from "react";
+import { ScrollView, View, Text,StatusBar,TouchableOpacity,Image } from "react-native";
 import MenuBotton from "../Menus/MenuBotton";
-import { hightWindow } from './../../Constants';
 import { Ionicons } from '@expo/vector-icons'; 
 import { useFonts } from 'expo-font';
 import { stylesUserSeguindoSeguidor } from "./shared/stylesUserSeguindoSeguidor";
+import { userUpdate } from "../../redux/actionCreators/userUpdate";
+import { initialValues, statesUser } from "../../interfaces/statesUser";
+import { connect } from "react-redux";
 
 
-export default function User(props:any)
+
+function User(props:any)
 {
+
+    useEffect(function(){
+        const unsubscribe = props.navigation.addListener('beforeRemove', (e:any) => { //Aqui é usado para prevenir que após logado volte a tela de login           
+            e.preventDefault();          
+      });         
+      return unsubscribe;
+
+    }, []);
 
     const [loaded] = useFonts({//Aqui é usado para carregar uma fonte
         Montserrat: require('../../assets/fonts/Montserrat.ttf'),
@@ -22,8 +33,13 @@ export default function User(props:any)
 
     function exitUser()
     {
-
+        props.navigation.removeListener('beforeRemove');//Aqui deixa de previnir que volte a tela de login       
+        props.alterData(initialValues);        
+        props.navigation.navigate('Index'); //Aqui chama a tela de logim, representada pelo componente Index.tsx  
     }
+
+  
+  
 
     return <>   
      <StatusBar barStyle="dark-content" backgroundColor="#1E1F1E" />
@@ -58,9 +74,38 @@ export default function User(props:any)
         </ScrollView>     
     </View>
     <View style={stylesUserSeguindoSeguidor.areaMenu}>
-                <MenuBotton codeSelect={1}/>
+                <MenuBotton navigation={props.navigation} codeSelect={1}/>
     </View>
     </>;
 }
+
+function mapStateToProps(state:any) {
+    return {            
+            login:state.users.login,
+            bio:state.users.bio,
+            name:state.users.name,
+            email:state.users.email,
+            following:state.users.following,
+            followers:state.users.followers,
+            public_repos:state.users.public_repos,
+            avatar_url:state.users.avatar_url,
+            location:state.users.location,
+            save:state.users.save,
+            dataSystem:state.users
+            }
+}
+
+function dispatchStateToProps(dispatch:any)
+{
+    return {
+        alterData(dado:statesUser)
+        {
+            const action=userUpdate(dado);//aqui e uma função Action Creator que está no arquivo numeros.ts
+            dispatch(action);//aqui faz um dispatch onde podera ou nao alterar o estado
+        }
+    }
+}
+
+export default connect(mapStateToProps,dispatchStateToProps)(User);
 
 

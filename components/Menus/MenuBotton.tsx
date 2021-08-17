@@ -3,8 +3,15 @@ import { View ,StyleSheet,TouchableOpacity,Text} from "react-native";
 import { useFonts } from 'expo-font';
 import { Feather } from '@expo/vector-icons'; 
 
-export default function MenuBotton(props:any)
+export interface MenuButtonInteface
 {
+    codeSelect:number;
+    navigation:any;
+}
+
+export default function MenuBotton(props:MenuButtonInteface)
+{
+    
 
     const [loaded] = useFonts({//Aqui carrega as fontes     
         Oswald: require('../../assets/fonts/Oswald-Regular.ttf')
@@ -15,19 +22,19 @@ export default function MenuBotton(props:any)
       }
 
     return <View style={styles.container}>
-           <TouchableOpacity style={styles.buttonMenu}>
+           <TouchableOpacity onPress={_=>props.navigation.navigate('User')} style={styles.buttonMenu}>
                 <Feather name="home" size={24} color={props.codeSelect===1 ? "black": "gray"} />
                 <Text style={{color:props.codeSelect===1 ? "black": "gray",fontFamily:"Oswald"}}>Home</Text>
            </TouchableOpacity>
-           <TouchableOpacity style={styles.buttonMenu}>
+           <TouchableOpacity  onPress={_=>props.navigation.navigate('Repos')} style={styles.buttonMenu}>
                  <Feather name="github" size={24} color={props.codeSelect===2 ? "black": "gray"} />
                 <Text style={{color:props.codeSelect===2 ? "black": "gray",fontFamily:"Oswald"}}>Repos</Text>
            </TouchableOpacity>
-           <TouchableOpacity style={styles.buttonMenu}>
+           <TouchableOpacity onPress={_=>props.navigation.navigate('Seguidores')} style={styles.buttonMenu}>
                 <Feather name="users" size={24} color={props.codeSelect===3 ? "black": "gray"} />
                 <Text style={{color:props.codeSelect===3 ? "black": "gray",fontFamily:"Oswald"}}>Seguidores</Text>
            </TouchableOpacity>
-           <TouchableOpacity style={styles.buttonMenu}>
+           <TouchableOpacity onPress={_=>props.navigation.navigate('Seguindos')} style={styles.buttonMenu}>
                 <Feather name="users" size={24} color={props.codeSelect===4 ? "black": "gray"} />
                 <Text style={{color:props.codeSelect===4 ? "black": "gray",fontFamily:"Oswald"}}>Seguindo</Text>
            </TouchableOpacity>
